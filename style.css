@@ -1,0 +1,199 @@
+:root {
+    --bg-color: #1a1a1a;
+    --table-color: #1b5e20;
+    --tile-front: #f5f5f5;
+    --tile-side: #e0e0e0;
+    --tile-back: #2e7d32;
+    --neon-gold: #ffd700;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: var(--bg-color);
+    color: white;
+    font-family: 'Noto Sans TC', sans-serif;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.scene {
+    width: 100vw;
+    height: 100vh;
+    perspective: 2000px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.table {
+    width: 600px;
+    height: 600px;
+    position: relative;
+    transform: rotateX(60deg) rotateZ(0deg);
+    transform-style: preserve-3d;
+    transition: transform 0.8s ease;
+}
+
+.table-surface {
+    position: absolute;
+    inset: 0;
+    background: var(--table-color);
+    border: 15px solid #3e2723;
+    border-radius: 20px;
+    box-shadow: 0 0 50px rgba(0,0,0,0.5), inset 0 0 100px rgba(0,0,0,0.3);
+}
+
+/* 3D Tile Component */
+.tile {
+    width: 40px;
+    height: 56px;
+    position: relative;
+    transform-style: preserve-3d;
+    margin: 2px;
+    transition: transform 0.3s;
+    cursor: pointer;
+}
+
+.tile:hover {
+    transform: translateZ(20px);
+}
+
+.tile-face {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    border-radius: 4px;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+.face-front {
+    background: var(--tile-front);
+    color: #333;
+    transform: translateZ(12px);
+}
+
+.face-back {
+    background: var(--tile-back);
+    transform: rotateY(180deg) translateZ(12px);
+}
+
+/* 簡化版 3D 側邊 (用邊線模擬) */
+.tile-face.face-front {
+    box-shadow: 
+        4px 4px 0 var(--tile-side),
+        6px 6px 0 var(--tile-back);
+}
+
+/* Players Hands Positioning */
+.player-hand {
+    position: absolute;
+    display: flex;
+    transform-style: preserve-3d;
+}
+
+.south {
+    bottom: -80px;
+    left: 50%;
+    transform: translateX(-50%) translateZ(20px);
+}
+
+.north {
+    top: -80px;
+    left: 50%;
+    transform: translateX(-50%) translateZ(20px) rotateZ(180deg);
+}
+
+.east {
+    right: -120px;
+    top: 50%;
+    transform: translateY(-50%) translateZ(20px) rotateZ(-90deg);
+}
+
+.west {
+    left: -120px;
+    top: 50%;
+    transform: translateY(-50%) translateZ(20px) rotateZ(90deg);
+}
+
+/* Table Info */
+.table-info {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) translateZ(5px);
+    width: 150px;
+    height: 150px;
+    background: rgba(0,0,0,0.4);
+    border: 2px solid var(--neon-gold);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+}
+
+.wind-indicator {
+    font-size: 3rem;
+    color: var(--neon-gold);
+    text-shadow: 0 0 10px var(--neon-gold);
+}
+
+/* UI Layer */
+.ui-layer {
+    position: fixed;
+    inset: 0;
+    padding: 2rem;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 100;
+}
+
+.game-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.5rem;
+    pointer-events: auto;
+}
+
+.game-title span { color: var(--neon-gold); }
+
+.game-controls {
+    pointer-events: auto;
+    display: flex;
+    justify-content: center;
+}
+
+.cyber-btn {
+    background: transparent;
+    border: 2px solid var(--neon-gold);
+    color: var(--neon-gold);
+    padding: 0.8rem 2rem;
+    font-family: 'Orbitron', sans-serif;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.cyber-btn:hover {
+    background: var(--neon-gold);
+    color: black;
+    box-shadow: 0 0 30px var(--neon-gold);
+}
+
+#game-message {
+    text-align: center;
+    font-size: 1.2rem;
+    color: var(--neon-gold);
+}
