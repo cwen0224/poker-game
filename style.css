@@ -66,11 +66,11 @@ body {
 
 /* 3D Tile Component */
 .tile {
-    width: 40px;
-    height: 56px;
+    width: 50px; /* 從 40px 放大 */
+    height: 70px; /* 從 56px 放大 */
     position: relative;
     transform-style: preserve-3d;
-    margin: 2px;
+    margin: 3px;
     transition: transform 0.3s;
     cursor: pointer;
 }
@@ -94,12 +94,12 @@ body {
 .face-front {
     background: var(--tile-front);
     color: #333;
-    transform: translateZ(12px);
+    transform: translateZ(15px); /* 增加厚度感 */
 }
 
 .face-back {
     background: var(--tile-back);
-    transform: rotateY(180deg) translateZ(12px);
+    transform: rotateY(180deg) translateZ(15px);
 }
 
 /* 簡化版 3D 側邊 (用邊線模擬) */
@@ -117,9 +117,9 @@ body {
 }
 
 .south {
-    bottom: -60px;
+    bottom: -100px; /* 往下移一點，給大牌空間 */
     left: 50%;
-    transform: translateX(-50%) translateZ(50px);
+    transform: translateX(-50%) translateZ(60px);
 }
 
 .south .tile {
@@ -131,44 +131,51 @@ body {
 }
 
 .north {
-    top: -80px;
+    top: -100px;
     left: 50%;
     transform: translateX(-50%) translateZ(20px) rotateZ(180deg);
 }
 
 .east {
-    right: -120px;
+    right: -140px;
     top: 50%;
     transform: translateY(-50%) translateZ(20px) rotateZ(-90deg);
 }
 
 .west {
-    left: -120px;
+    left: -140px;
     top: 50%;
     transform: translateY(-50%) translateZ(20px) rotateZ(90deg);
 }
 
-/* Table Info */
+/* Table Info Cluster Fix */
 .table-info {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) translateZ(5px);
-    width: 150px;
-    height: 150px;
-    background: rgba(0,0,0,0.4);
+    width: 180px;
+    height: 180px;
+    background: rgba(0,0,0,0.5);
     border: 2px solid var(--neon-gold);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    border-radius: 10px;
+    border-radius: 12px;
+    gap: 10px; /* 增加間距防止擠在一起 */
 }
 
 .wind-indicator {
-    font-size: 3rem;
+    font-size: 4rem; /* 放大風向 */
     color: var(--neon-gold);
-    text-shadow: 0 0 10px var(--neon-gold);
+    text-shadow: 0 0 15px var(--neon-gold);
+    line-height: 1;
+}
+
+.tile-count {
+    font-size: 1rem;
+    opacity: 0.8;
 }
 
 /* UI Layer */
