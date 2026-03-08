@@ -37,13 +37,13 @@ function deal() {
     document.getElementById('remaining-count').textContent = wall.length;
 }
 
-function createTileElement(value, isAI = false) {
+function createTileElement(value, index, isAI = false) {
     const tile = document.createElement('div');
     tile.className = 'tile';
     
     const face = document.createElement('div');
     face.className = 'tile-face face-front';
-    face.textContent = isAI ? '' : value; // AI 牌背面朝上
+    face.textContent = isAI ? '' : value;
 
     const back = document.createElement('div');
     back.className = 'tile-face face-back';
@@ -53,21 +53,71 @@ function createTileElement(value, isAI = false) {
     
     if (!isAI) {
         tile.addEventListener('click', () => {
-            // 從立起狀態打出去
-            tile.style.transform = 'rotateX(-90deg) translateZ(100px) translateY(-100px)';
-            tile.style.opacity = '0';
-            setTimeout(() => tile.remove(), 500);
+            handlePlayerDiscard(index);
         });
     }
 
     return tile;
 }
 
+async function handlePlayerDiscard(index) {
+    const hand = hands.south;
+    const discardedValue = hand.splice(index, 1)[0];
+    
+    // UI Animation
+    const container = document.getElementById('hand-south');
+    const tileElement = container.children[index];
+    tileElement.style.transform = 'rotateX(-90deg) translateZ(100px) translateY(-100px)';
+    tileElement.style.opacity = '0';
+    tileElement.style.pointerEvents = 'none';
+
+    document.getElementById('game-message').textContent = `您打出了 ${discardedValue}`;
+
+    setTimeout(() => {
+        drawTile('south');
+    }, 600);
+}
+
+function drawTile(player) {
+    if (wall.length === 0) {
+        document.getElementById('game-message').textContent = "海底撈月！牌已抽完。";
+        return;
+    }
+
+    const newTile = wall.pop();
+    hands[player].push(newTile);
+    document.getElementById('remaining-count').textContent = wall.length;
+    
+    if (player === 'south') {
+        document.getElementById('game-message').textContent = `您抽到了 ${newTile}`;
+    }
+
+    renderAllHands();
+    
+    // 如果是玩家抽完，模擬一下 AI 動作 (隨機打一張抽一張)
+    if (player === 'south') {
+        setTimeout(simulateAITurns, 1000);
+    }
+}
+
+function simulateAITurns() {
+    ['north', 'east', 'west'].forEach(p => {
+        if (hands[p].length > 0) {
+            hands[p].splice(Math.floor(Math.random() * hands[p].length), 1);
+            if (wall.length > 0) {
+                hands[p].push(wall.pop());
+            }
+        }
+    });
+    document.getElementById('remaining-count').textContent = wall.length;
+    renderAllHands();
+}
+
 function renderHand(hand, elementId, isAI = false) {
     const container = document.getElementById(elementId);
     container.innerHTML = '';
-    hand.forEach(val => {
-        container.appendChild(createTileElement(val, isAI));
+    hand.forEach((val, idx) => {
+        container.appendChild(createTileElement(val, idx, isAI));
     });
 }
 
@@ -80,7 +130,7 @@ function renderAllHands() {
 
 document.getElementById('deal-btn').addEventListener('click', () => {
     initGame();
-    document.getElementById('game-message').textContent = "重新發牌完成！";
+    document.getElementById('game-message').textContent = "重新發牌完成，請點擊手牌出牌！";
 });
 
 // Start
