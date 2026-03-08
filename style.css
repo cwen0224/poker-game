@@ -92,9 +92,11 @@ body {
 }
 
 .face-front {
-    background: var(--tile-front);
-    color: #333;
-    transform: translateZ(15px); /* 增加厚度感 */
+    background: #222; /* 改回深色底 */
+    color: white; /* 白色字/外框感 */
+    transform: translateZ(15px);
+    border: 2px solid rgba(255,255,255,0.2);
+    font-size: 2rem;
 }
 
 .face-back {
