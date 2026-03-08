@@ -119,13 +119,14 @@ body {
 }
 
 .south {
-    bottom: -100px; /* 往下移一點，給大牌空間 */
+    bottom: -120px;
     left: 50%;
-    transform: translateX(-50%) translateZ(60px);
+    transform: translateX(-50%) translateZ(80px); /* 往前推一點 */
 }
 
 .south .tile {
-    transform: rotateX(-80deg); /* 讓自己的牌立起來面像鏡頭 */
+    transform: rotateX(-80deg);
+    margin-left: -10px; /* 增加重疊度 */
 }
 
 .south .tile:hover {
@@ -133,20 +134,32 @@ body {
 }
 
 .north {
-    top: 20px;
+    top: -50px;
     left: 50%;
     transform: translateX(-50%) translateZ(10px) rotateZ(180deg);
 }
 
+.north .tile {
+    width: 35px; /* AI 牌縮小 */
+    height: 50px;
+    margin-left: -5px;
+}
+
 .east {
-    right: 20px;
+    right: -20px;
     top: 50%;
     flex-direction: column;
     transform: translateY(-50%) translateZ(10px) rotateZ(-90deg);
 }
 
+.east .tile, .west .tile {
+    width: 35px;
+    height: 50px;
+    margin-top: -30px; /* 垂直重疊 */
+}
+
 .west {
-    left: 20px;
+    left: -20px;
     top: 50%;
     flex-direction: column;
     transform: translateY(-50%) translateZ(10px) rotateZ(90deg);
@@ -184,6 +197,23 @@ body {
 }
 
 /* UI Layer */
+.bottom-ui {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    pointer-events: auto;
+}
+
+#game-message {
+    text-align: center;
+    font-size: 1.2rem;
+    color: var(--neon-gold);
+    background: rgba(0,0,0,0.6);
+    padding: 0.5rem 2rem;
+    border-radius: 50px;
+}
+
 .ui-layer {
     position: fixed;
     inset: 0;
@@ -192,7 +222,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    z-index: 100;
+    z-index: 1000;
 }
 
 .game-title {
