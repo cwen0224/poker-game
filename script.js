@@ -53,7 +53,8 @@ function createTileElement(value, isAI = false) {
     
     if (!isAI) {
         tile.addEventListener('click', () => {
-            tile.style.transform = 'translateY(-100px) translateZ(100px) rotateX(-90deg)';
+            // 從立起狀態打出去
+            tile.style.transform = 'rotateX(-90deg) translateZ(100px) translateY(-100px)';
             tile.style.opacity = '0';
             setTimeout(() => tile.remove(), 500);
         });

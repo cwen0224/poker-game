@@ -104,9 +104,17 @@ body {
 }
 
 .south {
-    bottom: -80px;
+    bottom: -60px;
     left: 50%;
-    transform: translateX(-50%) translateZ(20px);
+    transform: translateX(-50%) translateZ(50px);
+}
+
+.south .tile {
+    transform: rotateX(-80deg); /* 讓自己的牌立起來面像鏡頭 */
+}
+
+.south .tile:hover {
+    transform: rotateX(-80deg) translateZ(20px);
 }
 
 .north {
